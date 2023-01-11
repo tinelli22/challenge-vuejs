@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Navbar from '../Navbar/Navbar.vue';
+import Navbar from './Navbar.vue';
 
 export default {
     name: "Layout",
@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     main {
         background: var(--tertiary);
     }
