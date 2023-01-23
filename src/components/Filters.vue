@@ -1,11 +1,11 @@
 <template>
-   <Container >
+   <Container class="wrapperFilters">
         <div id="filters">
-            <Input type="text" label="Nome" name="name"/>
-            <Input type="text" label="Sobrenome" name="lastname"/>
-            <Input type="email" label="E-mail" name="email"/>
+            <Input type="text" label="Nome" name="name" :input-fnc="inputName" />
+            <Input type="text" label="Sobrenome" name="lastname" />
+            <Input type="email" label="E-mail" name="email" />
             <button id="btn" class="outline-primary">
-                 <Icon name="magnifying-glass" />
+                <Icon name="magnifying-glass" />
                 Buscar
             </button>
         </div>
@@ -23,16 +23,25 @@ export default {
         Input,
         Container,
         Icon
+    },
+    methods: {
+        inputName(ev) {
+            console.log(ev)
+        }
     }
 }
 </script>
 
 <style scoped>
-    #filters {
+    .wrapperFilters {
         background: #fff;
+        padding: var(--size-padding);
         border-radius: 8px;
+    }
+
+    #filters {
         display: grid;
-        grid-template-columns: 1fr 1fr 1.5fr 85px;
+        grid-template-columns: 1fr 1fr 1.5fr 120px;
         gap: 1rem;
     }   
 </style>

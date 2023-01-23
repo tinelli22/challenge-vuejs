@@ -13,8 +13,7 @@ export default {
 
 <style scoped>
     #container {
-        width: 1440px;
+        width: 1366px;
         margin: 0 auto;
-        padding: 0 1.5rem;
     }
 </style>
