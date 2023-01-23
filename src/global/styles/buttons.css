@@ -1,0 +1,28 @@
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-weight: 700;
+    
+}
+
+.primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.primary:hover {
+    background: var(--hover-primary);
+}
+
+.outline-primary {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.outline-primary:hover {
+    color: var(--hover-primary);
+    border: 1px solid var(--hover-primary);
+}

@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Layout>
-       i'm slot
+     
+     <Filters />
+     <custom-input></custom-input>
     </Layout>
   </div>
 </template>
@@ -10,11 +12,13 @@
 
 import './global/styles/index.css';
 import Layout from './components/Layout.vue';
+import Filters from './components/Filters.vue';
 
 export default {
   name: 'App',
   components: {
-    Layout
+    Layout,
+    Filters
   }
 }
 </script>

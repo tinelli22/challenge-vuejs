@@ -1,3 +1,7 @@
-@import './colors.css';
+@import './pallete.css';
 @import './reset.css';
+@import './buttons.css';
+@import './input.css';
+
+
 @import '../fonts/icomoon.css';
