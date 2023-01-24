@@ -2,29 +2,42 @@
   <div id="app">
     <Layout>
       <Container class="wrapperAddWallet">
-        <h2 id="title">BTC Carreiras</h2>
-        <button class="primary" id="btn">Adicionar Carteira</button>
+        <h2 class="title">BTC Carreiras</h2>
+        <button class="primary" id="btn" @click="openModal">Adicionar Carteira</button>
       </Container>
-     <Filters />
+      <Filters />
     </Layout>
+    <FormModal :modal-id="modalId" />
   </div>
 </template>
 
 <script>
-
-import './global/styles/index.css';
-import Layout from './components/Layout.vue';
-import Filters from './components/Filters.vue';
-import Container from './components/Container.vue';
+import "./global/styles/index.css";
+import Layout from "./components/Layout.vue";
+import Filters from "./components/Filters.vue";
+import Container from "./components/Container.vue";
+import FormModal from "./components/FormModal.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Layout,
     Filters,
-    Container
-}
-}
+    Container,
+    FormModal
+},
+  data: () => {
+    return {
+      modalId: 'add-modal'
+    }
+  },
+  methods: {
+    openModal() {
+      const modalRef = document.querySelector(`#${this.$data.modalId}`);
+      modalRef.classList.add('open')
+    }
+  }
+};
 </script>
 
 <style>

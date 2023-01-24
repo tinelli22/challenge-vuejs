@@ -1,14 +1,17 @@
 <template>
   <label :for="name">
     <input
+      :required="required"
       :type="type"
       :name="name"
-      class="text"
+      :value="value"
+      :id="name"
+      class="text appearence-off"
       @input="inputFnc"
       @focus="onFocus"
       @focusout="onFocusOut"
     />
-    <span class="label">{{ label }}</span>
+    <span  class="label">{{ label }}</span>
   </label>
 </template>
 
@@ -17,9 +20,30 @@ export default {
   name: "Input",
   props: {
     label: String,
-    type: String,
+    type: {
+      default: 'text',
+      type: String
+    },
+    value: {
+      default: '',
+      type: String
+    },
     name: String,
+    required: {
+      default: false,
+      type: Boolean
+    },
     inputFnc: Function
+  },
+  mounted: function() {
+    const { value, name } = this.$props
+
+    if(value.length > 0) {
+      const inputRef = document.querySelector(`input#${name}`);
+      const focus = new Event('focus');
+      inputRef.dispatchEvent(focus);
+      
+    }
   },
   methods: {
     onFocus: (ev) => {
@@ -60,13 +84,13 @@ label {
   transition: all 0.3s;
 }
 
+.label.none {
+  display: none;
+}
+
 .text {
   padding: 10px;
   order: 2;
-  appearance: none;
-  border: none;
-  width: 100%;
-  height: 100%;
 }
 
 .float {

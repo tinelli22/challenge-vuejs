@@ -1,0 +1,38 @@
+.modal {
+    height: 100vh;
+    width: 100vw;
+    transition: display 2s;
+    position: absolute;
+    top: 0;
+    display: none;
+}
+
+.modal.open {
+    display: block;
+}
+
+.modal-background {
+    background: #000000bd;
+    height: 100%;
+    width: 100%;
+}
+
+.modal-container {
+    padding: 2rem;
+    background: #fff;
+    min-width: 35%;
+    min-height: 320px;
+    border-radius: 12px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.modal-line {
+    display: block;
+    height: 1px;
+    background: #ececec;
+    margin-top: 16px;
+}

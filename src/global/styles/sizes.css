@@ -1,4 +1,5 @@
 :root {
     --size-btn-input: 48px;
-    --size-padding: 1.5rem; 
+    --size-padding: 1.5rem;
+    --size-container: 1366px; 
 }

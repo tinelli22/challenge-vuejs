@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
     #container {
-        width: 1366px;
+        width: var(--size-container);
         margin: 0 auto;
     }
 </style>

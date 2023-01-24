@@ -5,4 +5,7 @@
     --secondary: #424243;
     --opacity-secondary: #4242432b;
     --tertiary: #f0f3f4;
+
+    --feedback-error: #F55050;
+    --feedback-success: #1F8A70;
 }
