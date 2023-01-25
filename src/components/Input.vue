@@ -63,6 +63,9 @@ export default {
 </script>
 
 <style scoped>
+input {
+  padding: 0 10px;
+}
 label {
   display: flex;
   align-items: center;
@@ -77,7 +80,6 @@ label {
 .label {
   color: var(--secondary);
   font-weight: 400;
-  font-size: 0.875rem;
   order: 1;
   position: absolute;
   left: 10px;
@@ -86,11 +88,6 @@ label {
 
 .label.none {
   display: none;
-}
-
-.text {
-  padding: 10px;
-  order: 2;
 }
 
 .float {

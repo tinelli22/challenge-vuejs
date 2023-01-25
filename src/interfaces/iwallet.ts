@@ -1,4 +1,4 @@
-type UserType = {
+export interface IWallet {
     id: number;
     nome: string;
     email: string;
@@ -8,5 +8,3 @@ type UserType = {
     valor_carteira: number;
     endereco_carteira: string;
 }
-
-export default UserType

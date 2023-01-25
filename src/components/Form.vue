@@ -36,8 +36,8 @@
         <span class="sub-title">BTC {{ btc }}</span>
       </div>
       <div class="row two">
-        <span id="cancel" class="text-btn" @click="closeModal">Cancelar</span>
-        <button class="primary text-btn btn-submit" type="submit">
+        <span id="cancel" class="text" @click="closeModal">Cancelar</span>
+        <button class="primary text btn-submit" type="submit">
           {{ labelBtn }}
         </button>
       </div>

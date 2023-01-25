@@ -1,25 +1,26 @@
 <template>
-   <i v-bind:class="name"></i>
+  <i v-bind:class="name"></i>
 </template>
 
 <script>
-    export default {
-        props: {
-            name: String
-        }
-    }
+export default {
+  props: {
+    name: String,
+  },
+};
 </script>
 
 <style scoped>
-    i {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: "icomoon" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  cursor: pointer;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;

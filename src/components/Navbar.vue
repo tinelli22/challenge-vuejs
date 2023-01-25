@@ -1,6 +1,6 @@
 <template>
     <Container>
-        <nav>
+        <nav class="flex-row-align-center flex-justify-between">
             <img src="@/assets/svg/logotipo.svg" alt="logotipo">
             <div class="col">
                 <div class="user-info">
@@ -28,9 +28,6 @@ export default {
 
 <style scoped>
     nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         background: var(--white);
         color: var(--secondary);
         height: 3.75rem;
