@@ -2,8 +2,8 @@
    <Container class="wrapperFilters">
         <div id="filters">
             <Input type="text" label="Nome" name="namef" :input-fnc="inputName" />
-            <Input type="text" label="Sobrenome" name="lastname" />
-            <Input type="email" label="E-mail" name="email" />
+            <Input type="text" label="Sobrenome" name="lastnamef" />
+            <Input type="email" label="E-mail" name="emailf" />
             <button id="btn" class="outline-primary">
                 <Icon name="magnifying-glass" />
                 Buscar

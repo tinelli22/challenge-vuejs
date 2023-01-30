@@ -2,66 +2,74 @@
   <label :for="name">
     <input
       :required="required"
-      :type="type"
+      type="number"
       :name="name"
       :id="name"
       :value="value"
       class="text appearence-off"
-      @input="inputFnc"
+      @input="onInput"
       @focus="onFocus"
       @focusout="onFocusOut"
     />
-    <span  class="label">{{ label }}</span>
+    <span class="label">{{ label }}</span>
   </label>
 </template>
 
 <script>
-export default {
-  name: "Input",
-  props: {
-    label: String,
-    type: {
-      default: 'text',
-      type: String
-    },
-    value: {
-      default: '',
-      type: String
-    },
-    name: {
-      default: '',
-      type: String
-    },
-    required: {
-      default: false,
-      type: Boolean
-    },
-    inputFnc: Function
-  },
-  mounted: function() {
-    const { value, name, type } = this.$props
-    
-    const isValid = type === 'text' && value.length > 0;
+import Input from "./Input.vue";
+const focus = new Event("focus");
+const formatter = Intl.NumberFormat("pt-br", {
+  style: "currency",
+  currency: "BRL",
+});
 
-    if(isValid) {
+export default {
+  name: "InputMoney",
+  props: {
+    ...Input.props,
+  },
+  mounted: function () {
+    const { value, name } = this.$props;
+
+    const isValid = value >= 0;
+
+    if (isValid) {
       const inputRef = document.querySelector(`input#${name}`);
-      const focus = new Event('focus');
+      console.log(inputRef);
       inputRef.dispatchEvent(focus);
-      
     }
   },
+  data: function () {
+    return {
+      dataValue: 0,
+    };
+  },
   methods: {
-    onFocus: (ev) => {
+    onFocus(ev) {
       const target = ev.target;
       const children = target.parentElement.children;
       const labelRef = children[1];
+      target.type='number'
+      target.value = this.$data.dataValue;
+
       labelRef.classList.add("float");
     },
-    onFocusOut: (ev) => {
+    onFocusOut(ev) {
       const target = ev.target;
       const children = target.parentElement.children;
       const labelRef = children[1];
-      if (target.value.length === 0) labelRef.classList.remove("float");
+      this.$data.dataValue = target.value;
+
+      const r = formatter.format(target.value);
+      target.type = 'text'
+      target.value = r;
+
+      if (!target.value) labelRef.classList.remove("float");
+    },
+    onInput(ev) {
+      const cpy = ev;
+      cpy.value = this.dataValue
+      this.$props.inputFnc(cpy)
     },
   },
 };

@@ -5,39 +5,45 @@
         class="wrapperAddWallet flex-row-align-center flex-justify-between"
       >
         <h2 class="title">BTC Carreiras</h2>
-        <button class="primary" id="btn" @click="openModal">
+        <button class="primary" id="btn" @click="toggleModal">
           Adicionar Carteira
         </button>
       </Container>
       <div class="row flex-column">
-        <Filters class="shadow-1" />
+        <!-- <Filters class="shadow-1" /> -->
         <TableWallets class="shadow-1" :wallets="wallets" />
       </div>
     </Layout>
-    <FormModal :modal-id="modalId" />
+    <FormModal v-bind="modal" :submit="addWallet"/>
   </div>
 </template>
 
 <script>
 import "./global/styles/index.css";
 import Layout from "./components/Layout.vue";
-import Filters from "./components/Filters.vue";
+// import Filters from "./components/Filters.vue";
 import Container from "./components/Container.vue";
 import FormModal from "./components/FormModal.vue";
 import TableWallets from "./components/TableWallets.vue";
+import api from '../api/data.json'
+import { saveWalletService } from './services/walletService'
 
 export default {
   name: "App",
   components: {
     Layout,
-    Filters,
+    //Filters,
     Container,
     FormModal,
     TableWallets,
   },
   data: function() {
     return {
-      modalId: "add-modal",
+      modal: {
+        modalId: "add-modal",
+        title: 'Adicionar Carteira',
+        label: 'Adicionar'
+      },
       wallets: [
         {
           id: 4,
@@ -65,10 +71,29 @@ export default {
     };
   },
   methods: {
-    openModal() {
-      const modalRef = document.querySelector(`#${this.$data.modalId}`);
-      modalRef.classList.add("open");
+    toggleModal() {
+      const modalRef = document.querySelector(`#${this.$data.modal.modalId}`);
+      modalRef.classList.toggle("open");
     },
+    async addWallet(values) {
+      try {
+        const wallet = {
+         id: api.users.length + 1,
+         data_abertura: new Date().toISOString(),
+         nome: `${values[0]} ${values[1]}`,
+         email: values[2],
+         valor_carteira: parseInt(values[3])
+        }
+
+        const resp = await saveWalletService(wallet);
+        console.log(resp);
+        
+      } catch (err) {
+        console.error(err);
+      }
+
+
+    }
   },
 };
 </script>
