@@ -1,14 +1,14 @@
 <template>
    <Container class="wrapperFilters">
-        <div id="filters">
-            <Input type="text" label="Nome" name="namef" :input-fnc="inputName" />
-            <Input type="text" label="Sobrenome" name="lastnamef" />
-            <Input type="email" label="E-mail" name="emailf" />
-            <button id="btn" class="outline-primary">
+        <form id="filters" @submit="onSubmitForm">
+            <Input type="text" label="Nome" name="namef" :value="namef" :input-fnc="onInput" />
+            <Input type="text" label="Sobrenome" name="lastnamef" :value="lastnamef" :input-fnc="onInput" />
+            <Input type="email" label="E-mail" name="emailf" :value="emailf" :input-fnc="onInput" />
+            <button type="submit" id="btn" class="outline-primary text flex-row-align-center">
                 <Icon name="magnifying-glass" />
                 Buscar
             </button>
-        </div>
+        </form>
    </Container> 
 </template>
 
@@ -24,9 +24,25 @@ export default {
         Container,
         Icon
     },
+    data: function() {
+        return {
+            namef: '',
+            lastnamef: '',
+            emailf: ''
+        }
+    },
+    props: {
+        onSubmit: Function
+    },
     methods: {
-        inputName(ev) {
-            console.log(ev)
+        onInput(ev) {
+            const { name, value } = ev.target;
+            this.$data[name] = value;
+        },
+        onSubmitForm(ev) {
+            ev.preventDefault();
+            const { namef, lastnamef, emailf } = this.$data
+            this.$props.onSubmit({ nome: namef, sobrenome: lastnamef, email: emailf})
         }
     }
 }
@@ -44,4 +60,10 @@ export default {
         grid-template-columns: 1fr 1fr 1.5fr 120px;
         gap: 1rem;
     }   
+
+    #btn {
+        justify-content: center;
+        text-align: center;
+        gap: 0.5rem;
+    }
 </style>

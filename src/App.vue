@@ -10,7 +10,7 @@
         </button>
       </Container>
       <div class="row flex-column">
-        <!-- <Filters class="shadow-1" /> -->
+        <Filters class="shadow-1" :on-submit="onSubmitFilters" />
         <TableWallets
           v-if="wallets.length > 0"
           class="shadow-1"
@@ -25,7 +25,7 @@
 <script>
 import "./global/styles/index.css";
 import Layout from "./components/Layout.vue";
-// import Filters from "./components/Filters.vue";
+import Filters from "./components/Filters.vue";
 import Container from "./components/Container.vue";
 import FormModal from "./components/FormModal.vue";
 import TableWallets from "./components/TableWallets.vue";
@@ -36,7 +36,7 @@ export default {
   name: "App",
   components: {
     Layout,
-    //Filters,
+    Filters,
     Container,
     FormModal,
     TableWallets,
@@ -52,7 +52,7 @@ export default {
     };
   },
   mounted: async function () {
-    this.wallets = await this.get();
+    this.wallets = await this.getWallets();
   },
   methods: {
     toggleModal() {
@@ -77,14 +77,17 @@ export default {
         console.error(err);
       }
     },
-    async get() {
+    async getWallets(filters, pagination) {
       try {
-        const result = await getWalletsService();
+        const result = await getWalletsService(filters, pagination);
         this.wallets = result;
       } catch (err) {
         console.error(err);
       }
     },
+    onSubmitFilters(obj) {
+      this.getWallets(obj)
+    }
   },
 };
 </script>
