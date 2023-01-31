@@ -15,14 +15,22 @@
             <span class="text"></span>
           </li>
           <li class="line"></li>
-          <li :key="wa.id" class="table-item grid-columns" v-for="wa in wallets">
+          <li
+            :key="wa.id"
+            class="table-item grid-columns"
+            v-for="wa in wallets"
+          >
             <span class="text">{{ wa.nome }}</span>
             <span class="text">{{ wa.sobrenome }}</span>
             <span class="text">{{ wa.email }}</span>
             <span class="text">{{ wa.valor_carteira }}</span>
             <span class="text flex-row-align-center icons">
-              <Icon name="pencil" />
-              <Icon name="trash" />
+              <div @click="setWallet(wa)">
+                <Icon name="pencil" />
+              </div>
+              <div @click="setWalletId(wa.id)">
+                <Icon name="trash" />
+              </div>
             </span>
           </li>
           <li class="line second"></li>
@@ -30,14 +38,30 @@
         <p class="line third"></p>
         <div class="row flex-row-align-center flex-justify-between">
           <span class="text records">{{ totalRecords }} registro(s)</span>
-         
         </div>
       </div>
     </Container>
+    <FormModal
+      v-bind="formModal"
+      :name-value="nameValue"
+      :email-value="emailValue"
+      :last-name-value="lastNameValue"
+      :wallet-value="walletValue"
+      :submit="updateWallet"
+    />
+    <Modal :modal-id="deleteModal.modalId">
+        <h4 class="sub-title">Tem certeza que quer remover?</h4>
+        <div class="row-modal-delete flex-row-align-center">
+          <button class="outline-primary text" type="button" @click="toggleModal(deleteModal.modalId)">Cancelar</button>
+          <button class="primary text confirm" type="button">Sim</button>
+        </div>
+    </Modal>
   </div>
 </template>
 <script>
 import Container from "./Container.vue";
+import FormModal from "./FormModal.vue";
+import Modal from "./Modal.vue";
 import Icon from "./Icon.vue";
 
 export default {
@@ -49,10 +73,76 @@ export default {
     },
     totalRecords: {
       type: Number,
-      default: 0
+      default: 0,
+    },
+  },
+  data: function () {
+    return {
+      formModal: {
+        modalId: "updateModal",
+        title: "Atualizar Carteira",
+        label: "Atualizar",
+      },
+      nameValue: {
+        name: "namee",
+        value: "",
+      },
+      lastNameValue: {
+        name: "lastnamee",
+        value: "",
+      },
+      emailValue: {
+        name: "emaile",
+        value: "",
+      },
+      walletValue: {
+        name: "wallete",
+        value: 0,
+      },
+      deleteModal: {
+        modalId: "deleteModal",
+        walletId: ''
+      }
+    };
+  },
+  methods: {
+    toggleModal(id) {
+    
+      const modalRef = document.querySelector(`#${id}`);
+      modalRef.classList.toggle("open");
+    },
+    setWallet(wallet) {
+      const { nome, sobrenome, email, valor_carteira } = wallet;
+      this.nameValue = {
+        ...this.nameValue,
+        value: nome,
+      };
+      this.lastNameValue = {
+        ...this.lastNameValue,
+        value: sobrenome,
+      };
+      this.emailValue = {
+        ...this.emailValue,
+        value: email,
+      };
+      this.walletValue = {
+        ...this.walletValue,
+        value: valor_carteira,
+      };
+      this.toggleModal(this.formModal.modalId);
+    },
+    setWalletId(id) {
+      this.deleteModal.walletId = id;
+      this.toggleModal(this.deleteModal.modalId)
+    },
+    async updateWallet(wallet) {
+      console.log(wallet)
+    },
+    async deleteWallet(id) {
+      console.log(id);
     }
   },
-  components: { Container, Icon },
+  components: { Container, Icon, FormModal, Modal },
 };
 </script>
 <style scoped>
@@ -68,7 +158,7 @@ export default {
 }
 
 .table {
-  padding: 0 var(--size-padding)
+  padding: 0 var(--size-padding);
 }
 
 .line {
@@ -125,4 +215,13 @@ export default {
   gap: 1.5rem;
 }
 
+.row-modal-delete {
+  padding: var(--size-padding) 0;
+  gap: 1rem;
+}
+
+.confirm {
+  width: 80px;
+  text-align: center;
+}
 </style>

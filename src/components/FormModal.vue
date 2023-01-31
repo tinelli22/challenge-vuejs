@@ -3,49 +3,44 @@
     <h4 class="sub-title">{{ title }}</h4>
     <p class="modal-line"></p>
     <form class="form" @submit="onSubmit">
-    <Input
-      type="text"
-      label="Nome"
-      name="name"
-      required
-      :input-fnc="onInput"
-      :value="nameValue"
-    />
-    <Input
-      type="text"
-      label="Sobrenome"
-      name="lastname"
-      required
-      :input-fnc="onInput"
-      :value="lastNameValue"
-    />
-    <Input
-      type="email"
-      label="E-mail"
-      name="email"
-      required
-      :input-fnc="onInput"
-      :value="emailValue"
-    />
-    <div class="flex-row-align-center one">
-      <InputMoney
-        type="number"
-        label="Valor de compra"
-        name="wallet"
+      <Input
+        type="text"
+        label="Nome"
         required
         :input-fnc="onInput"
-        :value="walletValue"
+        v-bind="nameValue"
       />
-      <span class="sub-title">BTC {{ btc }}</span>
-    </div>
-    <div class="flex-row-align-center two">
-      <span id="cancel" class="text">Cancelar</span>
+      <Input
+        type="text"
+        label="Sobrenome"
+        required
+        :input-fnc="onInput"
+        v-bind="lastNameValue"
+      />
+      <Input
+        type="email"
+        label="E-mail"
+        required
+        :input-fnc="onInput"
+        v-bind="emailValue"
+      />
+      <div class="flex-row-align-center one">
+        <InputMoney
+          type="number"
+          label="Valor de compra"
+          required
+          :input-fnc="onInput"
+          v-bind="walletValue"
+        />
+        <span class="sub-title">BTC {{ btc }}</span>
+      </div>
+      <div class="flex-row-align-center two">
+        <span id="cancel" class="text" @click="closeModal">Cancelar</span>
         <button class="primary text btn-submit" type="submit">
           {{ label }}
         </button>
-    </div>
-  </form>
-   
+      </div>
+    </form>
   </Modal>
 </template>
 <script>
@@ -58,34 +53,54 @@ export default {
   components: {
     Modal,
     Input,
-    InputMoney
-},
+    InputMoney,
+  },
   props: {
     ...Modal.props,
     title: String,
     label: String,
     nameValue: {
-      type: String,
-      default: ''
+      type: Object,
+      default: function () {
+        return {
+          name: "name",
+          value: "",
+        };
+      },
     },
     lastNameValue: {
-      type: String,
-      default: ''
+      type: Object,
+      default: function () {
+        return {
+          name: "lastname",
+          value: "",
+        };
+      },
     },
     emailValue: {
-      type: String,
-      default: ''
+      type: Object,
+      default: function () {
+        return {
+          name: "email",
+          value: "",
+        };
+      },
     },
     walletValue: {
-      type: Number,
-      default: 0
+      type: Object,
+      default: function () {
+        return {
+          name: "wallet",
+          value: null,
+        };
+      },
     },
-    submit: Function
+    submit: Function,
   },
   data: function () {
     return {
       btc: "0",
-      inputsRef: {}
+      inputsRef: {},
     };
   },
   methods: {
@@ -93,19 +108,21 @@ export default {
       const target = ev.target;
       const name = target.name;
       this.inputsRef[name] = ev.target.value;
-  
-      if (name === "wallet") {
+
+      if (name.inclues("wallet")) {
         this.btc = target.value || "0";
       }
     },
     onSubmit(ev) {
       ev.preventDefault();
-      ev.target.classList.add('disabled')
       const values = Object.values(this.inputsRef);
-      this.$props.submit(values)
-      
+      this.$props.submit(values);
+    },
+    closeModal() {
+      const modalRef = document.querySelector(`#${this.$props.modalId}`);
+      modalRef.classList.remove('open')
     }
-  }
+  },
 };
 </script>
 <style scoped>

@@ -567,6 +567,14 @@
       "nome": "michael jsiasji",
       "email": "jsaisji@gmail.com",
       "valor_carteira": 23
+    },
+    {
+      "id": 53,
+      "data_abertura": "2023-01-30T19:31:13.474Z",
+      "nome": "my sweet",
+      "sobrenome": "home",
+      "email": "iajsaijsai@gmail.com",
+      "valor_carteira": 245454
     }
   ]
 }

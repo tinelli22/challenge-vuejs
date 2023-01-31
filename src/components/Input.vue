@@ -11,7 +11,7 @@
       @focus="onFocus"
       @focusout="onFocusOut"
     />
-    <span  class="label">{{ label }}</span>
+    <span class="label">{{ label }}</span>
   </label>
 </template>
 
@@ -38,19 +38,19 @@ export default {
     },
     inputFnc: Function
   },
-  mounted: function() {
-    const { value, name, type } = this.$props
-    
-    const isValid = type === 'text' && value.length > 0;
-
-    if(isValid) {
+  watch: {
+    value: function(val) {
+      if(val.length || val) this.setFocus()
+    }
+  },
+  methods: {
+    setFocus() {
+      const { name } = this.$props
       const inputRef = document.querySelector(`input#${name}`);
       const focus = new Event('focus');
       inputRef.dispatchEvent(focus);
       
-    }
-  },
-  methods: {
+    },
     onFocus: (ev) => {
       const target = ev.target;
       const children = target.parentElement.children;
