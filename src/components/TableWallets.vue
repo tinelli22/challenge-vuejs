@@ -43,17 +43,17 @@
     </Container>
     <FormModal
       v-bind="formModal"
-      :name-value="nameValue"
-      :email-value="emailValue"
-      :last-name-value="lastNameValue"
-      :wallet-value="walletValue"
-      :submit="updateWallet"
+      :name-input="nameValue"
+      :email-input="emailValue"
+      :last-name-input="lastNameValue"
+      :wallet-input="walletValue"
+      :on-submit="updateWallet"
     />
     <Modal :modal-id="deleteModal.modalId">
         <h4 class="sub-title">Tem certeza que quer remover?</h4>
         <div class="row-modal-delete flex-row-align-center">
           <button class="outline-primary text" type="button" @click="toggleModal(deleteModal.modalId)">Cancelar</button>
-          <button class="primary text confirm" type="button">Sim</button>
+          <button class="primary text confirm" type="button" @click="deleteWallet">Sim</button>
         </div>
     </Modal>
   </div>
@@ -63,6 +63,7 @@ import Container from "./Container.vue";
 import FormModal from "./FormModal.vue";
 import Modal from "./Modal.vue";
 import Icon from "./Icon.vue";
+import { deleteWalletService, updateWalletService } from "../services/walletService";
 
 export default {
   name: "Table",
@@ -113,6 +114,7 @@ export default {
     },
     setWallet(wallet) {
       const { nome, sobrenome, email, valor_carteira } = wallet;
+      
       this.nameValue = {
         ...this.nameValue,
         value: nome,
@@ -129,6 +131,7 @@ export default {
         ...this.walletValue,
         value: valor_carteira,
       };
+      
       this.toggleModal(this.formModal.modalId);
     },
     setWalletId(id) {
@@ -136,10 +139,16 @@ export default {
       this.toggleModal(this.deleteModal.modalId)
     },
     async updateWallet(wallet) {
-      console.log(wallet)
+      //not tested
+      const resp = await updateWalletService(wallet);
+      console.log(resp);
     },
-    async deleteWallet(id) {
-      console.log(id);
+    async deleteWallet() {
+      try {
+       await deleteWalletService(this.deleteModal.walletId);
+      } catch (err) {
+        console.error(err);
+      }
     }
   },
   components: { Container, Icon, FormModal, Modal },

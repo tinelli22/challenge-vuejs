@@ -9,7 +9,7 @@ export async function postWalletService(obj) {
             body: JSON.stringify(obj),
             headers,
         });
-        console.log(resp);
+       return await resp.json()
         
     } catch (err) {
         console.error(err);
@@ -19,11 +19,12 @@ export async function postWalletService(obj) {
 export async function updateWalletService(obj) {
     try {
         const { id } = obj;
-        return await fetch(`${url}/${id}`, {
+        const resp = await fetch(`${url}/${id}`, {
             method: 'put',
             body: JSON.stringify(obj),
             headers,
         });
+        return resp.json()
         
     } catch (err) {
         console.error(err);

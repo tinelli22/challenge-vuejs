@@ -2,27 +2,27 @@
   <Modal :modal-id="modalId">
     <h4 class="sub-title">{{ title }}</h4>
     <p class="modal-line"></p>
-    <form class="form" @submit="onSubmit">
+    <form class="form" @submit="onSubmitForm">
       <Input
         type="text"
         label="Nome"
         required
         :input-fnc="onInput"
-        v-bind="nameValue"
+        v-bind="nameInput"
       />
       <Input
         type="text"
         label="Sobrenome"
         required
         :input-fnc="onInput"
-        v-bind="lastNameValue"
+        v-bind="lastNameInput"
       />
       <Input
         type="email"
         label="E-mail"
         required
         :input-fnc="onInput"
-        v-bind="emailValue"
+        v-bind="emailInput"
       />
       <div class="flex-row-align-center one">
         <InputMoney
@@ -30,7 +30,7 @@
           label="Valor de compra"
           required
           :input-fnc="onInput"
-          v-bind="walletValue"
+          v-bind="walletInput"
         />
         <span class="sub-title">BTC {{ btc }}</span>
       </div>
@@ -59,7 +59,7 @@ export default {
     ...Modal.props,
     title: String,
     label: String,
-    nameValue: {
+    nameInput: {
       type: Object,
       default: function () {
         return {
@@ -68,7 +68,7 @@ export default {
         };
       },
     },
-    lastNameValue: {
+    lastNameInput: {
       type: Object,
       default: function () {
         return {
@@ -77,7 +77,7 @@ export default {
         };
       },
     },
-    emailValue: {
+    emailInput: {
       type: Object,
       default: function () {
         return {
@@ -86,7 +86,7 @@ export default {
         };
       },
     },
-    walletValue: {
+    walletInput: {
       type: Object,
       default: function () {
         return {
@@ -95,33 +95,52 @@ export default {
         };
       },
     },
-    submit: Function,
+    onSubmit: Function,
   },
   data: function () {
     return {
       btc: "0",
-      inputsRef: {},
     };
   },
+  // created: function() {
+  //   if(this.$props.walletInput.value) {
+  //     this
+  //   }
+  // },
   methods: {
     onInput(ev) {
-      const target = ev.target;
-      const name = target.name;
-      this.inputsRef[name] = ev.target.value;
-
-      if (name.inclues("wallet")) {
-        this.btc = target.value || "0";
+      const { name, value } = ev.target;
+      if (name === this.walletInput.name) {
+        this.calcValueToBtc(value);
       }
     },
-    onSubmit(ev) {
+    onSubmitForm(ev) {
       ev.preventDefault();
-      const values = Object.values(this.inputsRef);
-      this.$props.submit(values);
+      const [nameRef, lastnameRef, emailRef] = ev.target.children;
+      const nome = nameRef.children[0].value;
+      const sobrenome = lastnameRef.children[0].value;
+      const email = emailRef.children[0].value;
+
+      this.$props.onSubmit({
+        nome,
+        sobrenome,
+        email,
+        valor_carteira: this.btc,
+      });
     },
     closeModal() {
       const modalRef = document.querySelector(`#${this.$props.modalId}`);
-      modalRef.classList.remove('open')
-    }
+      modalRef.classList.remove("open");
+    },
+    calcValueToBtc(value) {
+      const cambioBtc = 0.0000086;
+      const [integer, floats] = value
+        .replace("R$", "")
+        .replace(".", "")
+        .split(",");
+      const valparsed = parseFloat(`${integer}.${floats}`);
+      this.btc = cambioBtc * valparsed;
+    },
   },
 };
 </script>

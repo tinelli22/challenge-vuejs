@@ -18,7 +18,7 @@
         />
       </div>
     </Layout>
-    <FormModal v-bind="modal" :submit="addWallet" />
+    <FormModal v-bind="modal" :on-submit="addWallet" />
   </div>
 </template>
 
@@ -61,18 +61,17 @@ export default {
     },
     async addWallet(values) {
       try {
-        const [nome, sobrenome, email, valor_carteira] = values;
+        const { nome, sobrenome, email, valor_carteira} = values;
         const wallet = {
           id: api.users.length + 1,
           data_abertura: new Date().toISOString(),
           nome,
           sobrenome,
           email,
-          valor_carteira: parseInt(valor_carteira),
+          valor_carteira,
         };
 
-        const resp = await postWalletService(wallet);
-        console.log(resp);
+        await postWalletService(wallet);
       } catch (err) {
         console.error(err);
       }
